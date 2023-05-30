@@ -49,6 +49,21 @@ public class Board {
 		piece.position = position;
 	}
 	
+	//metodo que vai remove ruma peça de detrminada posição do tabuleiro
+	public Piece removePiece(Position position) {
+		if (!positionExists(position)) {
+			throw new BoardException("Position not on the board");
+		}
+		//priemiro, testa se a peça do Board nessa positio é null (se for null é porque não há nenhuma peça nessa posição)
+		if (piece(position) == null) {
+			return null;
+		}
+		Piece aux = piece(position);
+		aux.position = null; //a position de aux passa a ser null (ela foi retirada do Board)
+		pieces[position.getRow()][position.getColumn()] = null; //na matriz de peças, a position que foi passada de parametro desse metodo, passa a ser null
+		return aux;
+	}
+	
 	//pega uma posição e retorna um booleano para dizer se essa posição existe ou não
 	//PRIMEIRO, VAMOS FAZER UMA FUNÇÃO AUXILIAR:
 	private boolean positionExists(int row, int column) {
