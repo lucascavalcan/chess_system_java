@@ -26,7 +26,11 @@ public class Position {
 		this.column = column;
 	}
 	
-	//setValue --> recebe uma nova linha e coluna para ser atribuido à posição
+	//recebe uma nova linha e coluna para ser atribuido à posição
+	public void setValues(int row, int column) {
+		this.row = row;
+		this.column = column;
+	}
 	
 	@Override
 	public String toString() {
