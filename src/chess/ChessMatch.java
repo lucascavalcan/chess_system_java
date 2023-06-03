@@ -28,6 +28,14 @@ public class ChessMatch {
 		return mat;
 	}
 	
+	// operação de movimentos possíveis dada uma posição (vai retornar uma matriz de booleano contendo quais os movimentos possíveis para que a aplicação possa colorir o fundo de cada aplicação)
+	public boolean[][] possibleMoves(ChessPosition sourcePosition) {
+		//converte a chess positiopn para uma position de matriz normal
+		Position position = sourcePosition.toPosition();
+		validateSourcePosition(position);
+		return board.piece(position).possibleMoves();
+	}
+	
 	public ChessPiece performChessMove(ChessPosition sourcePosition, ChessPosition targetPosition) { //posição de origem e de destino
 		//primeiro, converte-se as duas positions do parametro para posições da matriz
 		Position source = sourcePosition.toPosition();

@@ -57,7 +57,19 @@ public class UI {
 		for (int i=0; i<pieces.length; i++) {
 			System.out.print((8 - i) + " ");
 			for (int j=0; j<pieces.length; j++) {
-				printPiece(pieces[i][j]);
+				printPiece(pieces[i][j], false);
+			}
+			System.out.println(); //quebra de linha para ir para a proxima linha
+		}
+		System.out.println("  a b c d e f g h");
+	}
+	
+	//versão do printBoard que imprime o tabuleiro com uam coloração diferente para as casas onde cada peça pode se movimentar
+	public static void printBoard(ChessPiece[][] pieces, boolean[][] possibleMoves) {
+		for (int i=0; i<pieces.length; i++) {
+			System.out.print((8 - i) + " ");
+			for (int j=0; j<pieces.length; j++) {
+				printPiece(pieces[i][j], possibleMoves[i][j]); //vai pintar o fundo dependendo dessa variável "possibleMoves[i][j]"
 			}
 			System.out.println(); //quebra de linha para ir para a proxima linha
 		}
@@ -65,9 +77,12 @@ public class UI {
 	}
 	
 	//metodo que vai imprimir uma unica peça:
-	private static void printPiece(ChessPiece piece) {
-    	if (piece == null) { //se essa peça for = nulo, significa que não tinha peça nessa posição do tabuleiro
-            System.out.print("-");
+	private static void printPiece(ChessPiece piece, boolean background) { //boolean background indica se deve colorir ou não o fundo da peça
+    	if (background) { // se background for true, vai mudar o fundo da tela
+    		System.out.print(ANSI_BLUE_BACKGROUND);
+    	}
+		if (piece == null) { //se essa peça for = nulo, significa que não tinha peça nessa posição do tabuleiro
+            System.out.print("-" + ANSI_RESET);
         }
         else { //caso contrário, vai imprimir a peça que estava naquela posição
             if (piece.getColor() == Color.WHITE) {

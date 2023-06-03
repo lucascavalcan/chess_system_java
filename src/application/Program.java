@@ -25,6 +25,9 @@ public class Program {
 				System.out.print("Source: ");
 				ChessPosition source = UI.readChessPosition(sc);
 				
+				boolean[][] possibleMoves = chessMatch.possibleMoves(source);
+				UI.clearScreen();
+				UI.printBoard(chessMatch.getPieces(), possibleMoves); //na hora de imprimir novamente o board vai criar uma sobrecarga/nova versão na qual vai se passar tambem os PossibleMoves (pois é assim que vai coloris as possíveis posições p mover)
 				System.out.println();
 				System.out.print("Target: ");
 				ChessPosition target = UI.readChessPosition(sc);
