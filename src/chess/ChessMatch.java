@@ -8,11 +8,23 @@ import chess.pieces.Rook;
 
 public class ChessMatch {
 
+	private int turn; //rodada atual
+	private Color currentPlayer;
 	private Board board;
 
 	public ChessMatch() {
 		board = new Board(8,8); //tamanho de um tabuleiro
+		turn = 1; // a partida começa na jogada 1
+		currentPlayer = Color.WHITE;
 		initialSetup(); //na hora que inicia a partida, chama-se essa função
+	}
+	
+	public int getTurn() {
+		return turn;
+	}
+	
+	public Color getCurrentPlayer() {
+		return currentPlayer;
 	}
 	
 	//metodo que retorna uma matriz de peças de xadrez correpondentes a essa chessMatch
@@ -45,6 +57,7 @@ public class ChessMatch {
 		//validar a posição de destino
 		validateTargetPosition(source, target);
 		Piece capturedPiece = makeMove(source, target); //ja passa os parametros no formato de matriz
+		nextTurn(); // troca a jogada
 		return (ChessPiece)capturedPiece;
 	}
 	
@@ -63,6 +76,9 @@ public class ChessMatch {
 		if (!board.thereIsAPiece(position)) { //se não houver peça, vai dar uma exceção
 			throw new ChessException("There is no Piece on source position");
 		}
+		if (currentPlayer != ((ChessPiece)board.piece(position)).getColor()) { //significa que está tentando mover uma peça do adversário
+			throw new ChessException("The chosen piece is not yours");
+		}
 		if (!board.piece(position).isThereAnyPossibleMove()) {
 			throw new ChessException("There is no possible move for chosen position");
 		}
@@ -74,6 +90,11 @@ public class ChessMatch {
 		}
 	}
 
+	//metodo que passa para a proxima jogada
+	private void nextTurn() {
+		turn++;
+		currentPlayer = (currentPlayer == Color.WHITE) ? Color.BLACK : Color.WHITE;
+	}
 	
 	//metodo que vai receber as coordenadas do xadrez
 	private void placeNewPiece(char column, int row, ChessPiece piece) {

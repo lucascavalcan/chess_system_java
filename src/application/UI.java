@@ -3,6 +3,7 @@ package application;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import chess.ChessMatch;
 import chess.ChessPiece;
 import chess.ChessPosition;
 import chess.Color;
@@ -62,6 +63,14 @@ public class UI {
 			System.out.println(); //quebra de linha para ir para a proxima linha
 		}
 		System.out.println("  a b c d e f g h");
+	}
+	
+	//imprimir a partida atual
+	public static void printMatch(ChessMatch chessMatch) {
+		printBoard(chessMatch.getPieces());
+		System.out.println();
+		System.out.println("Turn: " + chessMatch.getTurn());
+		System.out.println("Waiting player: " + chessMatch.getCurrentPlayer());
 	}
 	
 	//versão do printBoard que imprime o tabuleiro com uam coloração diferente para as casas onde cada peça pode se movimentar
