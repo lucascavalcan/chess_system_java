@@ -76,6 +76,9 @@ public class UI {
 		System.out.println();
 		System.out.println("Turn: " + chessMatch.getTurn());
 		System.out.println("Waiting player: " + chessMatch.getCurrentPlayer());
+		if (chessMatch.getCheck()) {
+			System.out.println("CHECK!");
+		}
 	}
 	
 	//versão do printBoard que imprime o tabuleiro com uam coloração diferente para as casas onde cada peça pode se movimentar
