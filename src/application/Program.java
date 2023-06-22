@@ -19,7 +19,7 @@ public class Program {
 		List<ChessPiece> captured = new ArrayList<>(); //lista de peças capturadas
 		//função para imprimir as peças da partida instanciada acima:
 		
-		while (true) {
+		while (!chessMatch.getCheckMate()) { //enquanto a partida não estiver com cheque mate
 			try {
 				UI.clearScreen(); //limpar a tela a cada vez que voltar no while
 				//esse método vai receber a matriz de peças da partida
@@ -50,6 +50,8 @@ public class Program {
 				sc.nextLine(); //fazer o programa aguardar que o usuário aperte enter
 			}
 		}
+		UI.clearScreen();
+		UI.printMatch(chessMatch, captured);
 	}
 
 }
