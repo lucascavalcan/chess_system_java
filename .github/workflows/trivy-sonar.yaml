@@ -1,0 +1,51 @@
+name: Scan with Trivy
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  trivy-scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Set up Trivy
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y wget apt-transport-https gnupg lsb-release
+          wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | sudo apt-key add -
+          echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main | sudo tee -a /etc/apt/sources.list.d/trivy.list
+          sudo apt-get update
+          sudo apt-get install -y trivy
+
+      - name: Run Trivy scan
+        run: |
+          trivy conf --ignorefile .trivyignore --format json -o trivy-infra-core.json .
+
+      - name: Run conversion script
+        if: always()
+        run: |
+          python trivy.py
+
+      - name: SonarQube Scan
+        if: always()
+        uses: sonarsource/sonarqube-scan-action@master
+        env:
+          SONAR_TOKEN: sqp_77b2080ab349e5da4947bda7c275b11f57aadac4
+          SONAR_HOST_URL: http://localhost:9000
